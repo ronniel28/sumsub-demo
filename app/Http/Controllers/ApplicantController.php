@@ -34,7 +34,6 @@ class ApplicantController extends Controller
             $imagesId = $requiredIdDocsStatus['data']['IDENTITY']['imageIds'];
         }
         
-
         return view('sumsub', compact('user', 'applicantData'));
     }
 

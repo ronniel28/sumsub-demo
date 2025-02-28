@@ -21,26 +21,51 @@
     @else
         <p>You have already submitted your ID</p>
         <h3>Scanned Info</h3>
-        <form action="">
-            @foreach ($applicantData['data']['info'] as $key => $info)
-                @if ($key === 'idDocs')
-                    <h3>ID details</h3>
-                    @foreach ($applicantData['data']['info'][$key] as $idInfos)
-                        @foreach ( $idInfos as $idKey => $idInfo )
-                            <label for="">{{ $idKey }}</label>
-                            <input type="text" value="{{ is_array($idInfo) ? json_encode($idInfo) : $idInfo }}" disabled>
+        <div class="container mt-4">
+            <div class="card shadow-sm p-4">
+                <h3 class="mb-3 text-primary">Applicant Details</h3>
+                <form>
+                    <div class="row">
+                        @foreach ($applicantData['data']['info'] as $key => $info)
+                            @if ($key === 'idDocs')
+                                <h4 class="mt-4 text-secondary">ID Details</h4>
+                                @foreach ($applicantData['data']['info'][$key] as $idInfos)
+                                    @foreach ($idInfos as $idKey => $idInfo)
+                                        <div class="mb-3 col-md-6">
+                                            <label class="form-label fw-bold">{{ ucfirst($idKey) }}</label>
+                                            <input type="text" class="form-control" value="{{ is_array($idInfo) ? json_encode($idInfo) : $idInfo }}" disabled>
+                                        </div>
+                                    @endforeach
+                                @endforeach
+                            @elseif($key === 'addresses')
+                                <h4 class="mt-4 text-secondary">Address</h4>
+                                @foreach ($applicantData['data']['info'][$key] as $addresses)
+                                    @foreach ($addresses as $addKey => $address)
+                                        <div class="mb-3 col-md-6">
+                                            <label class="form-label fw-bold">{{ ucfirst($addKey) }}</label>
+                                            <input type="text" class="form-control" value="{{ is_array($address) ? json_encode($address) : $address }}" disabled>
+                                        </div>
+                                    @endforeach
+                                @endforeach   
+                            @else
+                                <div class="mb-3 col-md-6">
+                                    <label class="form-label fw-bold">{{ ucfirst($key) }}</label>
+                                    <input type="text" class="form-control" value="{{ is_array($info) ? json_encode($info) : $info }}" disabled>
+                                </div>
+                            @endif
                         @endforeach
-                    @endforeach
-                @else
-                    <label for="">{{ $key }} </label>
-                    <input type="text" value="{{ is_array($info) ? json_encode($info) : $info }}" disabled>
-                @endif
-            @endforeach
-        </form>
-        <h3>Review Result</h3>
-        <p>{{ $applicantData['data']['review']['reviewResult']['reviewAnswer'] }}</p>
-        <h3>Review Status</h3>
-        <p>{{ $applicantData['data']['review']['reviewStatus']}}</p>
+                    </div>
+                </form>
+            </div>
+        
+            <div class="card shadow-sm p-4 mt-4">
+                <h3 class="text-primary">Review Result</h3>
+                <p class="fw-bold">{{ $applicantData['data']['review']['reviewResult']['reviewAnswer'] }}</p>
+        
+                <h3 class="text-primary">Review Status</h3>
+                <p class="fw-bold">{{ $applicantData['data']['review']['reviewStatus'] }}</p>
+            </div>
+        </div>
     @endif
     <!-- Include Sumsub WebSDK Script -->
     <script src = "https://static.sumsub.com/idensic/static/sns-websdk-builder.js"></script>
